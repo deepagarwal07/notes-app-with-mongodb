@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Notes App</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color:rgb(226, 243, 242);
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .header form {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header select {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff6f61;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .header button:hover {
+            background-color: #ff4b47;
+        }
+
+        .note-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px auto;
+            padding: 10px;
+            max-width: 1200px;
+        }
+
+        .note {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 220px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .note.yellow {
+            background-color: #feff9c;
+        }
+
+        .note.lightblue {
+            background-color: #add8e6;
+        }
+
+        .note.pink {
+            background-color: #ffc0cb;
+        }
+
+        .note.green {
+            background-color: #98fb98;
+        }
+
+        .note.purple {
+            background-color: #dda0dd;
+        }
+
+        .note.orange {
+            background-color: #ffa500;
+        }
+        .note.black{
+         background-color: #000000;
+   
+     }
+
+        .note p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .black{
+      background-color: black;
+
+  }
+
+        .note button {
+            align-self: flex-end;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff6f61;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .note button:hover {
+            background-color: #ff4b47;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header input[type="text"] {
+                width: 200px;
+            }
+
+            .note {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Notes App</h1>
+        <h3>Write your thoughts!</h3>
+        <form action="/add_note" method="post">
+            <input type="text" name="note_text" placeholder="Take a note..." required>
+            <select name="note_color">
+                <option value="yellow">Yellow</option>
+                <option value="lightblue">Blue</option>
+                <option value="pink">Pink</option>
+                <option value="green">Green</option>
+                <option value="purple">Purple</option>
+                <option value="orange">Orange</option>
+                <option value="black">Black</option>
+            </select>
+            <button type="submit">Add Note</button>
+        </form>
+    </div>
+
+    <div class="note-container">
+        {% if notes|length == 0 %}
+            <p>No notes yet! Add your first note above.</p>
+        {% else %}
+            {% for note in notes %}
+            <div class="note {{ note.color }}">
+                <p>{{ note.text }}</p>
+                <form action="/delete_note/{{ loop.index0 }}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
